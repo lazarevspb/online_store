@@ -37,3 +37,4 @@ build/
 /my_folder/
 /mvnw
 /mvnw.cmd
+/src/main/resources/application.yaml
