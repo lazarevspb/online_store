@@ -1,0 +1,20 @@
+-- /*содержит список продуктов*/
+-- DROP TABLE IF EXISTS products;
+-- CREATE TABLE products
+-- (
+--     id          BIGSERIAL PRIMARY KEY,
+--     title       VARCHAR(128),
+--     price       NUMERIC(8, 2),
+--     status_id   INT, /*Статус продукта: Есть на складе, доступен для заказа, ожидается итп*/
+--     details_id  INT, /*Возможно, у продукта будут какие-то расширенные характеристики*/
+--     category_id INT,
+--     created_at  TIMESTAMP,
+--     updated_at  TIMESTAMP,
+--     FOREIGN KEY (category_id)
+--         REFERENCES categories (id),
+--     FOREIGN KEY (details_id)
+--         REFERENCES details (id),
+--         FOREIGN KEY (status_id )
+--         REFERENCES status_products (id)
+-- );
+

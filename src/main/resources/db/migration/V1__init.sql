@@ -19,7 +19,8 @@ CREATE TABLE details
     id                 BIGSERIAL UNIQUE,
     category_id        INT,
     product_details_id INT,
-    PRIMARY KEY (id, category_id),
+--     PRIMARY KEY (id, category_id),
+    PRIMARY KEY (id), /*Исправил, так как непонятно, зачем тут составной первичный ключь*/
     FOREIGN KEY (category_id)
         REFERENCES categories (id)
 --     FOREIGN KEY (product_details_id)
@@ -46,8 +47,8 @@ CREATE TABLE products
     status_id   INT, /*Статус продукта: Есть на складе, доступен для заказа, ожидается итп*/
     details_id  INT, /*Возможно, у продукта будут какие-то расширенные характеристики*/
     category_id INT,
-    created_at  TIMESTAMP,
-    updated_at  TIMESTAMP,
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp,
     FOREIGN KEY (category_id)
         REFERENCES categories (id),
     FOREIGN KEY (details_id)
@@ -313,3 +314,15 @@ CREATE TABLE products_images_items
     FOREIGN KEY (img_id)
         REFERENCES images (id)
 );
+
+insert into categories(name)
+values ('category_1'),
+       ('category_2')
+;
+
+insert into products(title, price, category_id)
+values ('Product_1', 10.00, 1),
+       ('Product_2', 10.00, 2)
+;
+
+
