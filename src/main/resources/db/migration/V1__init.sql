@@ -8,8 +8,9 @@
 DROP TABLE IF EXISTS categories;
 CREATE TABLE categories
 (
-    id   SERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL
+    id          SERIAL PRIMARY KEY,
+    title       VARCHAR(50) NOT NULL,
+    description varchar(5000)
 );
 
 /*ссылается на таблицу с подробными характеристиками*/
@@ -47,13 +48,13 @@ CREATE TABLE products
     status_id   INT, /*Статус продукта: Есть на складе, доступен для заказа, ожидается итп*/
     details_id  INT, /*Возможно, у продукта будут какие-то расширенные характеристики*/
     category_id INT,
-    created_at timestamp default current_timestamp,
-    updated_at timestamp default current_timestamp,
+    created_at  timestamp default current_timestamp,
+    updated_at  timestamp default current_timestamp,
     FOREIGN KEY (category_id)
         REFERENCES categories (id),
     FOREIGN KEY (details_id)
         REFERENCES details (id),
-        FOREIGN KEY (status_id )
+    FOREIGN KEY (status_id)
         REFERENCES status_products (id)
 );
 
@@ -87,7 +88,8 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users
 (
     id         bigserial primary key,
-    phone      VARCHAR(15) NOT NULL UNIQUE,
+    username   varchar(30) not null unique,
+    phone      VARCHAR(15) UNIQUE,
     password   VARCHAR(100),
     email      VARCHAR(30) UNIQUE,
     first_name VARCHAR(50),
@@ -315,7 +317,7 @@ CREATE TABLE products_images_items
         REFERENCES images (id)
 );
 
-insert into categories(name)
+insert into categories(title)
 values ('category_1'),
        ('category_2')
 ;
