@@ -38,3 +38,4 @@ build/
 /mvnw
 /mvnw.cmd
 /src/main/resources/application.yaml
+/src/main/resources/private.properties
