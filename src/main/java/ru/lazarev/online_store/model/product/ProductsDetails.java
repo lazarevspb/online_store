@@ -1,4 +1,4 @@
-package ru.lazarev.online_store.model;
+package ru.lazarev.online_store.model.product;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,23 +11,24 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "promotional_events")
-public class PromotionalEvents {
+@Table(name = "products_details")
+public class ProductsDetails {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private Long id;
 
-  private String eventsTitle;
-  private boolean actual;
-  private String discount;
-  private Long productId;
-  private Long categoryId;
-
-  @Column(name = "expiration_date")
-  @UpdateTimestamp
-  private LocalDateTime expirationDate;
+  private String specification;
+  private String sex; // TODO: 21.04.2021 enum
+  private Long manufacturerId;
+  private String quality;
+  private String color;
+  private String width;
+  private String height;
+  private String weight;
+  private String diagonal;
+  private Long size;
 
   @Column(name = "created_at")
   @CreationTimestamp

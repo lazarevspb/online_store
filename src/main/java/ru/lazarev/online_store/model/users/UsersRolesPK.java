@@ -1,4 +1,4 @@
-package ru.lazarev.online_store.model.users_roles;
+package ru.lazarev.online_store.model.users;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

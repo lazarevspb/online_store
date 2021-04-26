@@ -1,9 +1,10 @@
-package ru.lazarev.online_store.model;
+package ru.lazarev.online_store.model.users;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import ru.lazarev.online_store.model.cart.Cart;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -41,12 +42,9 @@ public class User {
     @Column(name = "order_id")
     private Long orderId;
 
-    /*При авторизации ошибка, если поле enabled раскоменчено на фронте в форме логина:
-    Null value was assigned to a property [class ru.lazarev.online_store.model.User.enabled]
-    of primitive type setter of ru.lazarev.online_store.model.User.enabled; nested exception
-    is org.hibernate.PropertyAccessException: Null value was assigned to a property
-    [class ru.lazarev.online_store.model.User.enabled] of primitive type setter of
-    ru.lazarev.online_store.model.User.enabled */
+    @OneToOne
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
 
     @Column(name = "enabled")
     private boolean enabled;

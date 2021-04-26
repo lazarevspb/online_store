@@ -1,4 +1,4 @@
-package ru.lazarev.online_store.model;
+package ru.lazarev.online_store.model.users;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,14 +8,16 @@ import javax.persistence.*;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "images")
-public class Images {
+@Table(name = "roles")
+public class Role {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private Long id;
 
-  private String path;
+  @Column(name = "name")
+  private String name;
 
 
 }

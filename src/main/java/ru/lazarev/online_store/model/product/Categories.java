@@ -1,4 +1,4 @@
-package ru.lazarev.online_store.model;
+package ru.lazarev.online_store.model.product;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,15 +8,16 @@ import javax.persistence.*;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "products_images_items")
-public class ProductsImagesItems {
+@Table(name = "categories")
+public class Categories {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
-  private Long id;
-  private Long imgId;
-  private Long productId;
+  private Integer id;
+
+  @Column(name = "title")
+  private String name;
 
 
 }

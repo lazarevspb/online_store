@@ -8,8 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.lazarev.online_store.model.Role;
-import ru.lazarev.online_store.model.User;
+import ru.lazarev.online_store.model.users.Role;
+import ru.lazarev.online_store.model.users.User;
 import ru.lazarev.online_store.repositories.UserRepository;
 
 import java.util.Collection;

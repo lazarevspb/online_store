@@ -1,4 +1,4 @@
-package ru.lazarev.online_store.model;
+package ru.lazarev.online_store.model.storage;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,24 +11,19 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "products_details")
-public class ProductsDetails {
+@Table(name = "storage_details")
+public class StorageDetails {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private Long id;
 
-  private String specification;
-  private String sex; // TODO: 21.04.2021 enum
-  private Long manufacturerId;
-  private String quality;
-  private String color;
-  private String width;
-  private String height;
-  private String weight;
-  private String diagonal;
-  private Long size;
+  private String name;
+  private String phone;
+  private String email;
+  private String address;
+  private boolean enabled;
 
   @Column(name = "created_at")
   @CreationTimestamp
@@ -37,7 +32,6 @@ public class ProductsDetails {
   @Column(name = "updated_at")
   @UpdateTimestamp
   private LocalDateTime updatedAt;
-
 
 
 }

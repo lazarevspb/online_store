@@ -1,4 +1,4 @@
-package ru.lazarev.online_store.model;
+package ru.lazarev.online_store.model.storage;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

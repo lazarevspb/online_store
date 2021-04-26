@@ -1,4 +1,4 @@
-package ru.lazarev.online_store.model;
+package ru.lazarev.online_store.model.product;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,27 +11,23 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "orders")
-public class Orders {
+@Table(name = "promotional_events")
+public class PromotionalEvents {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private Long id;
 
+  private String eventsTitle;
+  private boolean actual;
+  private String discount;
+  private Long productId;
+  private Long categoryId;
 
-  private Long userId;
-  private Long orderItemId;
-  private int discount;
-  private Long promotionalEventId;
-  private int totalDiscount;
-  private int totalPrice;
-  private int tPriceWDiscount;
-  private String phone;
-  private String address;
-  private String deliveryRequired;
-  private Long deliveryDetailsId;
-  private Long orderStatusId;
+  @Column(name = "expiration_date")
+  @UpdateTimestamp
+  private LocalDateTime expirationDate;
 
   @Column(name = "created_at")
   @CreationTimestamp
@@ -40,6 +36,7 @@ public class Orders {
   @Column(name = "updated_at")
   @UpdateTimestamp
   private LocalDateTime updatedAt;
+
 
 
 }
