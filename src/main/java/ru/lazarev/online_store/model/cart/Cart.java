@@ -2,11 +2,14 @@ package ru.lazarev.online_store.model.cart;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import ru.lazarev.online_store.model.users.User;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.List;
 
+@Slf4j
 @Entity
 @Data
 @NoArgsConstructor
@@ -21,7 +24,7 @@ public class Cart {
     @OneToOne(mappedBy = "cart")
     private User user;
 
-    @OneToMany(mappedBy = "cart")
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> items;
 
     @Column(name = "price")
@@ -37,12 +40,12 @@ public class Cart {
             if (item.getProduct().getId().equals(cartItem.getProduct().getId())) {
                 recalculateTotalPrice();
                 return;
-
             }
         }
         this.items.add(cartItem);
         cartItem.setCart(this);
         recalculateTotalPrice();
+        items.stream().map(cartItem1 -> cartItem1.getProduct().getTitle()).forEach(System.out::println);
     }
 
     public void recalculateTotalPrice() {
@@ -56,6 +59,19 @@ public class Cart {
     public void mergeCart(Cart newCart) {
         newCart.items.forEach(this::addItem);
     }
+
+    public CartItem getCartItemFromProductId(Long productId) {
+        for (CartItem item : items) {
+            if (item.getProduct().getId().equals(productId)) {
+                return item;
+            }
+        }
+        return null;
+
+
+    }
+
+
 
 
 }

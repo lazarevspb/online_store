@@ -349,10 +349,19 @@ CREATE TABLE products_images_items
         REFERENCES images (id)
 );
 
-insert into categories(title)
-values ('category_1'),
-       ('category_2')
-;
+-- insert into categories(title)
+-- values ('category_1'),
+--        ('category_2')
+-- ;
+
+insert into categories
+    (title, description)
+values ('food', 'some food products'),
+       ('fruits', 'some fruit'),
+       ('vegetables', 'some vegetables'),
+       ('electronics', 'some electronics'),
+       ('non-food', 'all non-food products');
+
 
 insert into products(title, price, category_id)
 values ('Product_1', 10.00, 1),
