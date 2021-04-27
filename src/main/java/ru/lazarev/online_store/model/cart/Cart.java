@@ -33,6 +33,7 @@ public class Cart {
 
     public void clear() {
         items.clear();
+        recalculateTotalPrice();
     }
 
     public void addItem(CartItem cartItem) {
@@ -52,7 +53,7 @@ public class Cart {
         totalPrice = 0;
         totalPrice = items.stream()
                 .map(CartItem::getPrice)
-                .reduce(Integer::sum).get();
+                .reduce(Integer::sum).orElse(0);
 
     }
 

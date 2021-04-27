@@ -12,6 +12,7 @@ import ru.lazarev.online_store.model.users.User;
 import ru.lazarev.online_store.repositories.CartRepository;
 
 import java.util.Optional;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -32,6 +33,7 @@ public class CartService {
         final Cart cart = findCartById(id).orElseThrow(() ->
                 new ResourceNotFoundException(String.format("Корзина с id: %d не найдена", id)));
         cart.clear();
+        save(cart);
     }
 
     public void addProductToCartById(Long cartId, Long productId) {
@@ -53,7 +55,6 @@ public class CartService {
                         String.format("Корзина с id: %d не найдена", cartId)));
         cart.addItem(new CartItem(product));
         save(cart);
-
     }
 
     @Transactional
@@ -62,14 +63,9 @@ public class CartService {
         return user.getCart().getId();
     }
 
-    private Optional<Cart> getCartByUserID(User user) {
-        return cartRepository.findCartByUserId(user.getId());
-    }
-
-
     private User getUser(String username) {
-        return userService.findByUsername(username).get();
+        return userService.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException(
+                String.format("Пользователь с username %s не найден", username)
+        ));
     }
-
-
 }
