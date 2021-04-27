@@ -47,5 +47,11 @@ public class CartController {
         }
     }
 
+    @GetMapping("/clear/{cartId}")
+    public void clearCart(@PathVariable Long cartId) {
+            cartService.clearCartById(cartId);
+    }
+
+
 
 }

@@ -16,14 +16,23 @@ values
 (1, 1),
 (2, 2);
 
-insert into products (title, price, category_id)
-values
-('Banana', 50, 1),
-('Bread', 40, 1),
-('Meat', 500, 3);
 
 
+insert into categories
+(title, description)
+values ('food', 'some food products'),
+       ('fruits', 'some fruit'),
+       ('vegetables', 'some vegetables'),
+       ('electronics', 'some electronics'),
+       ('non-food', 'all non-food products');
 
 
+insert into products(title, price, category_id)
+values ('Product_1', 10.00, 1),
+       ('Product_2', 20.00, 3),
+       ('Product_3', 30.00, 3),
+       ('Product_4', 40.00, 4),
+       ('Product_5', 50.00, 5)
+;
 
 

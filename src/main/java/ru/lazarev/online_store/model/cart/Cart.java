@@ -61,6 +61,7 @@ public class Cart {
     }
 
     public CartItem getCartItemFromProductId(Long productId) {
+        log.warn(String.format("items.size(): %d, productId: %d", items.size(), productId ));
         for (CartItem item : items) {
             if (item.getProduct().getId().equals(productId)) {
                 return item;

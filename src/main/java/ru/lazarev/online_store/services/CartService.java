@@ -35,15 +35,16 @@ public class CartService {
     }
 
     public void addProductToCartById(Long cartId, Long productId) {
-        Cart cart = cartRepository.findById(cartId).orElseThrow(
-                () -> new ResourceNotFoundException(
-                        String.format("Корзина с id: %d не найдена", cartId)));
+        Cart cart = cartRepository.findById(cartId).orElse(new Cart());
+        save(cart);
+        log.warn(String.format("cart id = %d", cart.getId()));
         CartItem cartItem = cart.getCartItemFromProductId(productId);
 
         if (cartItem != null) {
 
             cartItem.incrementQuantity();
             cart.recalculateTotalPrice();
+            save(cart);
             return;
         }
 
@@ -51,6 +52,7 @@ public class CartService {
                 () -> new ResourceNotFoundException(
                         String.format("Корзина с id: %d не найдена", cartId)));
         cart.addItem(new CartItem(product));
+        save(cart);
 
     }
 
@@ -58,40 +60,6 @@ public class CartService {
     public Long getIdCartFromUsername(String username) {
         User user = getUser(username);
         return user.getCart().getId();
-    }
-
-
-    @Transactional
-    public Long getCartForUser(String username, Long cartId) {
-        if (username != null && cartId != null) {
-            User user = getUser(username);
-            Cart cart = cartRepository.findCartById(cartId).get();
-            Optional<Cart> oldCart = getCartByUserID(user);
-
-            if (oldCart.isPresent()) {
-                cart.mergeCart(oldCart.get());
-                cartRepository.delete(oldCart.get());
-            }
-            cart.setUser(user);
-        }
-        if (username == null) {
-            Cart cart = cartRepository.save(new Cart());
-            return cart.getId();
-        }
-
-        User user = getUser(username);
-        Optional<Cart> cart = getCartByUserID(user);
-
-        if (cart.isPresent()) {
-            return cart.get().getId();
-        }
-
-        Cart newCart = new  Cart();
-        newCart.setUser(user);
-        cartRepository.save(cart.get());
-        return newCart.getId();
-
-
     }
 
     private Optional<Cart> getCartByUserID(User user) {
