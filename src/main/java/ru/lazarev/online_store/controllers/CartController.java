@@ -9,11 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.lazarev.online_store.dto.CartDto;
 import ru.lazarev.online_store.exception.ResourceNotFoundException;
 import ru.lazarev.online_store.model.cart.Cart;
-import ru.lazarev.online_store.model.product.Product;
-import ru.lazarev.online_store.model.users.User;
 import ru.lazarev.online_store.services.CartService;
-import ru.lazarev.online_store.services.ProductService;
-import ru.lazarev.online_store.services.UserService;
 
 import java.security.Principal;
 
@@ -49,9 +45,6 @@ public class CartController {
 
     @GetMapping("/clear/{cartId}")
     public void clearCart(@PathVariable Long cartId) {
-            cartService.clearCartById(cartId);
+        cartService.clearCartById(cartId);
     }
-
-
-
 }

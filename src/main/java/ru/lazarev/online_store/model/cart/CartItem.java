@@ -1,6 +1,5 @@
 package ru.lazarev.online_store.model.cart;
 
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,20 +46,11 @@ public class CartItem {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public void addProduct (Product product) {
+    public void addProduct(Product product) {
         this.product = product;
         this.quantity = 1;
         this.pricePerProduct = product.getPrice();
         price = this.pricePerProduct;
-
-
-    }
-
-
-
-    public void incrementQuantity(int amount) {
-        quantity += amount;
-        price = quantity * pricePerProduct;
     }
 
     public void incrementQuantity() {
@@ -68,18 +58,10 @@ public class CartItem {
         price = quantity * pricePerProduct;
     }
 
-    private void decrementQuantity() {
-        quantity--;
-        price = quantity * pricePerProduct;
-    }
-
     public CartItem(Product product) {
-        log.warn("<------------public CartItem(Product product) ");
         this.product = product;
         this.quantity = 1;
         this.pricePerProduct = product.getPrice();
         this.price = this.pricePerProduct;
     }
-
-
 }

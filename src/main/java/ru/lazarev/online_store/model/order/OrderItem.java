@@ -31,33 +31,4 @@ public class OrderItem implements Serializable {
 
     @Column(name = "price")
     private int price;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//    @Id
-//    @Column(name = "order_id")
-//    private Long orderId;
-//    @Id
-//    @Column(name = "product_id")
-//    private Long productId;
-//
-//    private Long count;
-//    private int pricePerItem;
-//    private int price;
-
-
 }
-

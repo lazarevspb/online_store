@@ -12,16 +12,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Table(name = "order_status")
 public class OrderStatus {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+    private String title;
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  private Long id;
-  private String title;
-
-  @Column(name = "updated_at")
-  @UpdateTimestamp
-  private LocalDateTime updatedAt;
-
-
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 }

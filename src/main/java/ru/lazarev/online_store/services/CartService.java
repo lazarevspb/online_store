@@ -43,7 +43,6 @@ public class CartService {
         CartItem cartItem = cart.getCartItemFromProductId(productId);
 
         if (cartItem != null) {
-
             cartItem.incrementQuantity();
             cart.recalculateTotalPrice();
             save(cart);

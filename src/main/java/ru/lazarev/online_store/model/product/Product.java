@@ -7,7 +7,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -26,11 +25,16 @@ public class Product {
     @Column(name = "price")
     private int price;
 
-//    @Column(name = "status_id")
-//    private int status_id;
+/*  @Column(name = "status_id") // TODO: 27.04.2021 вызывают ошибку
+    private int status_id;
 
-//    @Column(name = "details_id")
-//    private int details_id;
+    @Column(name = "details_id")
+    private int details_id;
+
+    java.lang.IllegalArgumentException:
+    Can not set int field ru.lazarev.online_store.model.product.Product.details_id
+    to null value
+    */
 
     @Column(name = "category_id")
     private int category_id;

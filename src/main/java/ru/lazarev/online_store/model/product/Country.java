@@ -10,7 +10,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "country")
 public class Country {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -18,6 +17,4 @@ public class Country {
 
     @Column(name = "name")
     private long name; // TODO: 21.04.2021 проверить тип
-
-
 }

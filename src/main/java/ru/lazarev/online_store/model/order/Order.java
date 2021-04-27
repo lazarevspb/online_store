@@ -7,7 +7,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import ru.lazarev.online_store.model.delivery.DeliveryDetails;
 import ru.lazarev.online_store.model.product.PromotionalEvents;
 import ru.lazarev.online_store.model.users.User;
-import ru.lazarev.online_store.model.cart.Cart;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -18,65 +17,56 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "orders")
 public class Order {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  private Long id;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User owner;
 
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> orderItems;
 
-  @ManyToOne
-  @JoinColumn(name = "user_id")
-  private User owner;
+    @OneToOne
+    @JoinColumn(name = "promotional_event_id")
+    private PromotionalEvents promotionalEvent;
 
-  @OneToMany(mappedBy = "order")
-  private List<OrderItem> orderItems;
+    @Column(name = "discount")
+    private int discount;
 
-//  @OneToOne
-//  @JoinColumn(name = "cart_id")
-//  private Cart cart;
+    @Column(name = "total_discount")
+    private int totalDiscount;
 
+    @Column(name = "t_price_w_discount")
+    private int tPriceWDiscount;
 
-  @OneToOne
-  @JoinColumn(name = "promotional_event_id")
-  private PromotionalEvents promotionalEvent;
+    @Column(name = "total_price")
+    private Integer totalPrice;
 
-  @Column(name = "discount")
-  private int discount;
+    @Column(name = "phone")
+    private String phone;
 
-  @Column(name = "total_discount")
-  private int totalDiscount;
+    @Column(name = "address")
+    private String address;
 
-  @Column(name = "t_price_w_discount")
-  private int tPriceWDiscount;
+    @Column(name = "delivery_required")
+    private boolean deliveryRequired;
 
-  @Column(name = "total_price")
-  private Integer totalPrice;
+    @OneToOne
+    @JoinColumn(name = "delivery_details_id")
+    private DeliveryDetails deliveryDetails;
 
-  @Column(name = "phone")
-  private String phone;
+    @OneToOne
+    @JoinColumn(name = "order_status_id")
+    private OrderStatus orderStatus;
 
-  @Column(name = "address")
-  private String address;
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
-  @Column(name = "delivery_required")
-  private boolean deliveryRequired;
-
-  @OneToOne
-  @JoinColumn(name = "delivery_details_id")
-  private DeliveryDetails deliveryDetails;
-
-  @OneToOne
-  @JoinColumn(name = "order_status_id")
-  private OrderStatus orderStatus;
-
-  @Column(name = "created_at")
-  @CreationTimestamp
-  private LocalDateTime createdAt;
-
-  @Column(name = "updated_at")
-  @UpdateTimestamp
-  private LocalDateTime updatedAt;
-
-
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 }

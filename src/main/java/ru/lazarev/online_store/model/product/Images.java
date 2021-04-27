@@ -10,12 +10,10 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "images")
 public class Images {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-  private String path;
-
-
+    private String path;
 }

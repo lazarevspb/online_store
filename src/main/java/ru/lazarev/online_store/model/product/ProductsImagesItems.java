@@ -10,13 +10,10 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "products_images_items")
 public class ProductsImagesItems {
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private Long id;
   private Long imgId;
   private Long productId;
-
-
 }

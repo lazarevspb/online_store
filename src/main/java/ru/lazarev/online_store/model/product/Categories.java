@@ -11,13 +11,11 @@ import javax.persistence.*;
 @Table(name = "categories")
 public class Categories {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
 
-  @Column(name = "title")
-  private String name;
-
-
+    @Column(name = "title")
+    private String name;
 }
