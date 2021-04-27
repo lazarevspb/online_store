@@ -39,7 +39,7 @@ public class CartController {
             cartService.addProductToCartById(cartId, productId);
 
         } else {
-            cartService.addProductToCartById(1L, productId);
+            cartService.addProductToCartById(1L, productId);// временное решение
         }
     }
 
