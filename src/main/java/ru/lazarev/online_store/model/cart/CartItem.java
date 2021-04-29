@@ -25,6 +25,9 @@ public class CartItem {
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
+    @Column(name = "title")
+    private String title;
+
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
@@ -63,13 +66,11 @@ public class CartItem {
         price = quantity * pricePerProduct;
     }
 
-
-
-
     public CartItem(Product product) {
         this.product = product;
         this.quantity = 1;
         this.pricePerProduct = product.getPrice();
         this.price = this.pricePerProduct;
+        this.title = product.getTitle();
     }
 }

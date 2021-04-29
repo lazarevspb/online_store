@@ -1,6 +1,4 @@
 /*
- * Homework for lesson #1
- *
  * @author Valeriy Lazarev
  * @since 17.04.2021
  */
@@ -348,11 +346,5 @@ CREATE TABLE products_images_items
     FOREIGN KEY (img_id)
         REFERENCES images (id)
 );
-
--- insert into categories(title)
--- values ('category_1'),
---        ('category_2')
--- ;
-
 
 
