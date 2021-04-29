@@ -2,10 +2,13 @@ package ru.lazarev.online_store.model.cart;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import ru.lazarev.online_store.model.users.User;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -28,19 +31,42 @@ public class Cart {
     @Column(name = "price")
     private int totalPrice;
 
+//    @PostConstruct
+//    public void init() {
+//        this.items = new ArrayList<>();
+//        log.warn("items - инициализирован " + items.toString());
+//    }
+
+
     public void clear() {
         items.clear();
         recalculateTotalPrice();
     }
 
+
+    public void deleteItem(CartItem cartItem) {
+        if (this.items != null) {
+        this.items.remove(cartItem);
+        }
+        recalculateTotalPrice();
+    }
+
+
+
     public void addItem(CartItem cartItem) {
-        for (CartItem item : items) {
-            if (item.getProduct().getId().equals(cartItem.getProduct().getId())) {
-                recalculateTotalPrice();
-                return;
+        if (this.items != null) {
+            for (CartItem item : this.items) {
+                if (item.getProduct().getId().equals(cartItem.getProduct().getId())) {
+                    recalculateTotalPrice();
+                    return;
+                }
             }
         }
-        this.items.add(cartItem);
+        if (this.items != null) {
+            this.items.add(cartItem);
+        } else {
+            this.items = new ArrayList<>();
+        }
         cartItem.setCart(this);
         recalculateTotalPrice();
         items.stream().map(cartItem1 -> cartItem1.getProduct().getTitle()).forEach(System.out::println);
@@ -54,10 +80,11 @@ public class Cart {
     }
 
     public CartItem getCartItemFromProductId(Long productId) {
-        log.warn(String.format("items.size(): %d, productId: %d", items.size(), productId));
-        for (CartItem item : items) {
-            if (item.getProduct().getId().equals(productId)) {
-                return item;
+        if (items != null) {
+            for (CartItem item : items) {
+                if (item.getProduct().getId().equals(productId)) {
+                    return item;
+                }
             }
         }
         return null;

@@ -58,6 +58,14 @@ public class CartItem {
         price = quantity * pricePerProduct;
     }
 
+    public void decrementQuantity() {
+        quantity--;
+        price = quantity * pricePerProduct;
+    }
+
+
+
+
     public CartItem(Product product) {
         this.product = product;
         this.quantity = 1;

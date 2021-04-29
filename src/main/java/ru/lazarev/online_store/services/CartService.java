@@ -29,6 +29,7 @@ public class CartService {
         return cartRepository.save(cart);
     }
 
+
     public void clearCartById(Long id) {
         final Cart cart = findCartById(id).orElseThrow(() ->
                 new ResourceNotFoundException(String.format("Корзина с id: %d не найдена", id)));
@@ -36,13 +37,35 @@ public class CartService {
         save(cart);
     }
 
-    public void addProductToCartById(Long cartId, Long productId) {
-        Cart cart = cartRepository.findById(cartId).orElse(new Cart());
-        save(cart);
-        log.warn(String.format("cart id = %d", cart.getId()));
+
+    @Transactional
+    public void deleteProductToCartById(Long cartId, Long productId) {
+        Cart cart = getCartById(cartId);
         CartItem cartItem = cart.getCartItemFromProductId(productId);
 
         if (cartItem != null) {
+            cartItem.decrementQuantity();
+            if (cartItem.getQuantity() <= 0) {
+                cart.deleteItem(cartItem);
+            }
+            cart.recalculateTotalPrice();
+            save(cart);
+            return;
+        } else {
+            throw new ResourceNotFoundException("Не удалось найти элемент для удаления");
+        }
+
+
+    }
+
+    @Transactional
+    public void addProductToCartById(Long cartId, Long productId) {
+        Cart cart = getCartById(cartId);
+        CartItem cartItem = cart.getCartItemFromProductId(productId);
+        save(cart);
+        if (cartItem != null) {
+//            log.warn(String.format("\nШаг №2: cartItem != null cart = %d, cartItem = %d", cart.getId(), cartItem.getProduct().getId()));
+
             cartItem.incrementQuantity();
             cart.recalculateTotalPrice();
             save(cart);
@@ -52,8 +75,36 @@ public class CartService {
         Product product = productService.findById(productId).orElseThrow(
                 () -> new ResourceNotFoundException(
                         String.format("Корзина с id: %d не найдена", cartId)));
-        cart.addItem(new CartItem(product));
-        save(cart);
+        cartItem = new CartItem(product);
+        cartItem.addProduct(product);
+
+        cart.addItem(cartItem);
+        cartRepository.save(cart);
+
+        if (product != null) {
+            log.warn(String.format("\nШаг №2: cart = %d, cartItem = %d,  product.getTitle() = %s",
+                    cart.getId(), cartItem.getProduct().getId(), product.getTitle()));
+        } else log.error("\nШаг №2: product = null");
+
+
+    }
+
+    private Cart getCartById(Long cartId) {
+        return cartRepository.findById(cartId).orElse(new Cart());
+    }
+
+
+    private Cart getCart(Long cartId) {
+        Cart cart;
+        try {
+            cart = cartRepository.findById(cartId).orElseThrow(
+                    () -> new ResourceNotFoundException(
+                            String.format("Корзина с id: %d не найдена", cartId)));
+        } catch (ResourceNotFoundException e) {
+            cart = new Cart();
+            save(cart);
+        }
+        return cart;
     }
 
     @Transactional
@@ -67,4 +118,5 @@ public class CartService {
                 String.format("Пользователь с username %s не найден", username)
         ));
     }
+
 }

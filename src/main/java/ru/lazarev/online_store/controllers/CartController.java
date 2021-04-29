@@ -40,8 +40,21 @@ public class CartController {
 
         } else {
             cartService.addProductToCartById(1L, productId);// временное решение
+            log.warn("\n\nШаг 1\n\n");
         }
     }
+
+    @GetMapping("/delete/{productId}")
+    public void deleteProductFromCart(@PathVariable Long productId, Principal principal) {
+        if (principal != null) {
+            final Long cartId = cartService.getIdCartFromUsername(principal.getName());
+            cartService.addProductToCartById(cartId, productId);
+
+        } else {
+            cartService.deleteProductToCartById(1L, productId);// временное решение
+        }
+    }
+
 
     @GetMapping("/clear/{cartId}")
     public void clearCart(@PathVariable Long cartId) {
