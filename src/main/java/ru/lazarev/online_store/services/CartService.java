@@ -56,8 +56,8 @@ public class CartService {
     @Transactional
     public void addProductToCartById(Long cartId, Long productId) {
         Cart cart = getCartById(cartId);
-        CartItem cartItem = cart.getCartItemFromProductId(productId);
         save(cart);
+        CartItem cartItem = cart.getCartItemFromProductId(productId);
 
         if (cartItem != null) {
             cartItem.incrementQuantity();
@@ -73,7 +73,7 @@ public class CartService {
         cartItem.addProduct(product);
 
         cart.addItem(cartItem);
-        cartRepository.save(cart);
+        save(cart);
     }
 
     private Cart getCartById(Long cartId) {

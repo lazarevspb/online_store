@@ -47,15 +47,13 @@ public class Cart {
                     return;
                 }
             }
-        }
-        if (this.items != null) {
-            this.items.add(cartItem);
+            this.items.add(cartItem); //Если в коллекции не нашлось такого итема
         } else {
             this.items = new ArrayList<>();
+            this.items.add(cartItem);
         }
         cartItem.setCart(this);
         recalculateTotalPrice();
-        items.stream().map(cartItem1 -> cartItem1.getProduct().getTitle()).forEach(System.out::println);
     }
 
     public void recalculateTotalPrice() {
