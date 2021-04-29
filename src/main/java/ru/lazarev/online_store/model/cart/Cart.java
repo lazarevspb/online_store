@@ -2,16 +2,12 @@ package ru.lazarev.online_store.model.cart;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
 import ru.lazarev.online_store.model.users.User;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
 @Entity
 @Data
 @NoArgsConstructor
@@ -31,27 +27,17 @@ public class Cart {
     @Column(name = "price")
     private int totalPrice;
 
-//    @PostConstruct
-//    public void init() {
-//        this.items = new ArrayList<>();
-//        log.warn("items - инициализирован " + items.toString());
-//    }
-
-
     public void clear() {
         items.clear();
         recalculateTotalPrice();
     }
 
-
     public void deleteItem(CartItem cartItem) {
         if (this.items != null) {
-        this.items.remove(cartItem);
+            this.items.remove(cartItem);
         }
         recalculateTotalPrice();
     }
-
-
 
     public void addItem(CartItem cartItem) {
         if (this.items != null) {
