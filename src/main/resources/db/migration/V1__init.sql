@@ -1,6 +1,4 @@
 /*
- * Homework for lesson #1
- *
  * @author Valeriy Lazarev
  * @since 17.04.2021
  */
@@ -8,8 +6,9 @@
 DROP TABLE IF EXISTS categories;
 CREATE TABLE categories
 (
-    id   SERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL
+    id          SERIAL PRIMARY KEY,
+    title       VARCHAR(50) NOT NULL,
+    description varchar(5000)
 );
 
 /*ссылается на таблицу с подробными характеристиками*/
@@ -33,7 +32,7 @@ CREATE TABLE status_products
 (
     id         SERIAL,
     title      VARCHAR(50) NOT NULL,
-    updated_at TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT current_timestamp,
     PRIMARY KEY (id)
 );
 
@@ -47,13 +46,13 @@ CREATE TABLE products
     status_id   INT, /*Статус продукта: Есть на складе, доступен для заказа, ожидается итп*/
     details_id  INT, /*Возможно, у продукта будут какие-то расширенные характеристики*/
     category_id INT,
-    created_at timestamp default current_timestamp,
-    updated_at timestamp default current_timestamp,
+    created_at  timestamp default current_timestamp,
+    updated_at  timestamp default current_timestamp,
     FOREIGN KEY (category_id)
         REFERENCES categories (id),
     FOREIGN KEY (details_id)
         REFERENCES details (id),
-        FOREIGN KEY (status_id )
+    FOREIGN KEY (status_id)
         REFERENCES status_products (id)
 );
 
@@ -62,12 +61,12 @@ CREATE TABLE products
 DROP TABLE IF EXISTS order_items;
 CREATE TABLE order_items
 (
-    order_id       BIGINT NOT NULL,
-    product_id     BIGINT NOT NULL,
-    count          BIGINT NOT NULL,
+    id             BIGSERIAL PRIMARY KEY,
+    order_id       BIGSERIAL NOT NULL,
+    product_id     BIGINT    NOT NULL,
+    count          BIGINT    NOT NULL,
     price_per_item NUMERIC(8, 2),
     price          NUMERIC(8, 2),
-    PRIMARY KEY (order_id, product_id),
     FOREIGN KEY (product_id)
         REFERENCES products (id)
 );
@@ -78,7 +77,7 @@ CREATE TABLE order_status
 (
     id         SERIAL,
     title      VARCHAR(50) NOT NULL,
-    updated_at TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT current_timestamp,
     PRIMARY KEY (id)
 );
 
@@ -87,15 +86,18 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users
 (
     id         bigserial primary key,
-    phone      VARCHAR(15) NOT NULL UNIQUE,
+    username   varchar(30) not null unique,
+    phone      VARCHAR(15) UNIQUE,
     password   VARCHAR(100),
     email      VARCHAR(30) UNIQUE,
     first_name VARCHAR(50),
     last_name  VARCHAR(50),
+
     order_id   BIGINT,
-    enabled    BOOLEAN, /* пользователя можно будет деактивировать */
-    created_at TIMESTAMP,
-    updated_at TIMESTAMP
+    cart_id    BIGINT,
+    enabled    BOOLEAN   DEFAULT true, /* пользователя можно будет деактивировать */
+    created_at TIMESTAMP DEFAULT current_timestamp,
+    updated_at TIMESTAMP DEFAULT current_timestamp
 --     FOREIGN KEY (order_id) - добавляются после создания таблицы orders
 --         REFERENCES orders (id)
 );
@@ -107,13 +109,13 @@ CREATE TABLE promotional_events
 (
     id              BIGSERIAL PRIMARY KEY,
     events_title    VARCHAR(255),
-    actual          BOOLEAN,
+    actual          BOOLEAN   DEFAULT true,
     discount        NUMERIC(8, 2),
     product_id      BIGINT,
     category_id     INT,
     expiration_date TIMESTAMP,
-    created_at      TIMESTAMP,
-    updated_at      TIMESTAMP,
+    created_at      TIMESTAMP DEFAULT current_timestamp,
+    updated_at      TIMESTAMP DEFAULT current_timestamp,
     FOREIGN KEY (product_id)
         REFERENCES products (id),
     FOREIGN KEY (category_id)
@@ -140,7 +142,7 @@ CREATE TABLE delivery_details
     delivery_date      TIMESTAMP,
     price              NUMERIC(8, 2),
     status_delivery_id INTEGER,
-    updated_at         TIMESTAMP,
+    updated_at         TIMESTAMP DEFAULT current_timestamp,
 
 --     FOREIGN KEY (order_id) REFERENCES orders (id),
     FOREIGN KEY (status_delivery_id) REFERENCES delivery_status (id),
@@ -154,6 +156,7 @@ CREATE TABLE orders
 (
     id                   BIGSERIAL PRIMARY KEY,
     user_id              BIGINT,
+--     cart_id              BIGINT,
     order_item_id        BIGINT,
     discount             NUMERIC(8, 2),
     promotional_event_id BIGINT,
@@ -162,15 +165,17 @@ CREATE TABLE orders
     t_price_w_discount   NUMERIC(8, 2), /*total price with discount*/
     phone                VARCHAR(15),
     address              VARCHAR(255),
-    delivery_required    BOOLEAN,
+    delivery_required    BOOLEAN   DEFAULT false,
     delivery_details_id  BIGINT,
     order_status_id      INTEGER,
-    created_at           TIMESTAMP,
-    updated_at           TIMESTAMP,
+    created_at           TIMESTAMP DEFAULT current_timestamp,
+    updated_at           TIMESTAMP DEFAULT current_timestamp,
     FOREIGN KEY (user_id)
         REFERENCES users (id),
-    FOREIGN KEY (order_item_id, id)
-        REFERENCES order_items (order_id, product_id),
+--     FOREIGN KEY (cart_id)
+--         REFERENCES carts (id),
+    FOREIGN KEY (order_item_id)
+        REFERENCES order_items (id),
     FOREIGN KEY (order_status_id)
         REFERENCES order_status (id),
     FOREIGN KEY (delivery_details_id)
@@ -222,9 +227,9 @@ CREATE TABLE storage_details
     phone      VARCHAR(15) NOT NULL UNIQUE,
     email      VARCHAR(30) UNIQUE,
     address    VARCHAR(256) UNIQUE,
-    enabled    BOOLEAN, /*склад может быть недоступен*/
-    created_at TIMESTAMP,
-    updated_at TIMESTAMP
+    enabled    BOOLEAN   DEFAULT true, /*склад может быть недоступен*/
+    created_at TIMESTAMP DEFAULT current_timestamp,
+    updated_at TIMESTAMP DEFAULT current_timestamp
 );
 
 /* Таблица storage отвечает за количество доступного товара на складе,
@@ -240,7 +245,7 @@ CREATE TABLE storage
     available_quantity     INT,
     date_of_delivery       TIMESTAMP,
     expected_delivery_date TIMESTAMP,
-    updated_at             TIMESTAMP,
+    updated_at             TIMESTAMP DEFAULT current_timestamp,
     FOREIGN KEY (product_id)
         REFERENCES products (id),
     FOREIGN KEY (storage_details_id)
@@ -283,8 +288,8 @@ CREATE TABLE products_details
     weight          NUMERIC(8, 2),
     diagonal        NUMERIC(8, 2),
     size            BIGINT,
-    created_at      TIMESTAMP,
-    updated_at      TIMESTAMP
+    created_at      TIMESTAMP DEFAULT current_timestamp,
+    updated_at      TIMESTAMP DEFAULT current_timestamp
 );
 
 /* Внешний ключ для деталей продукта*/
@@ -302,6 +307,33 @@ CREATE TABLE images
     path varchar(255) NOT NULL
 );
 
+DROP TABLE IF EXISTS carts;
+CREATE TABLE carts
+(
+    id      BIGSERIAL PRIMARY KEY,
+    price   NUMERIC(8, 2),
+    user_id INT,
+    FOREIGN KEY (user_id)
+        REFERENCES users (id)
+
+);
+
+
+DROP TABLE IF EXISTS products_images_items;
+CREATE TABLE cart_items
+(
+    id                BIGSERIAL PRIMARY KEY,
+    cart_id           BIGINT REFERENCES carts (id),
+    product_id        BIGINT REFERENCES products (id),
+    title             VARCHAR(255),
+    quantity          INT,
+    price_per_product INT,
+    price             INT,
+    created_at        TIMESTAMP DEFAULT current_timestamp,
+    updated_at        TIMESTAMP DEFAULT current_timestamp
+);
+
+
 /*Промежуточная таблица для изображений*/
 DROP TABLE IF EXISTS products_images_items;
 CREATE TABLE products_images_items
@@ -314,15 +346,5 @@ CREATE TABLE products_images_items
     FOREIGN KEY (img_id)
         REFERENCES images (id)
 );
-
-insert into categories(name)
-values ('category_1'),
-       ('category_2')
-;
-
-insert into products(title, price, category_id)
-values ('Product_1', 10.00, 1),
-       ('Product_2', 10.00, 2)
-;
 
 

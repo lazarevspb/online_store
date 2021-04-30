@@ -4,6 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.PropertySource;
 
+/**
+ * @author Valeriy Lazarev
+ * @since 17.04.2021
+ */
 @PropertySource("private.properties")
 @SpringBootApplication
 public class OnlineStoreApplication {
