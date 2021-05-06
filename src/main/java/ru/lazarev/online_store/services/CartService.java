@@ -10,84 +10,35 @@ import ru.lazarev.online_store.model.product.Product;
 import ru.lazarev.online_store.model.users.User;
 import ru.lazarev.online_store.repositories.CartRepository;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class CartService {
     private final CartRepository cartRepository;
-    private final UserService userService;
-    private final ProductService productService;
 
-    public Optional<Cart> findCartById(Long id) {
-        return cartRepository.findCartById(id);
-    }
-
-    public Cart save(Cart cart) {
+    public Cart updateCart(Cart cart) {
+        recalculateCart(cart);
         return cartRepository.save(cart);
     }
 
-    @Transactional
-    public void clearCartById(Long id) {
-        final Cart cart = findCartById(id).orElseThrow(() ->
-                new ResourceNotFoundException(String.format("Корзина с id: %d не найдена", id)));
-        cart.clear();
-        save(cart);
+    public Cart findCartByOwnerId(Long id) {
+        return cartRepository.findById(id).orElse(new Cart(id));
     }
 
-    @Transactional
-    public void deleteProductToCartById(Long cartId, Long productId) {
-        Cart cart = getCartById(cartId);
-        CartItem cartItem = cart.getCartItemFromProductId(productId);
+    public Cart clearCart(Long id) {
+        Cart cart = findCartByOwnerId(id);
+        cart.getCartItems().clear();
+        return cartRepository.save(cart);
+    }
 
-        if (cartItem != null) {
-            cartItem.decrementQuantity();
-            if (cartItem.getQuantity() <= 0) {
-                cart.deleteItem(cartItem);
-            }
-
-            cart.recalculateTotalPrice();
-            save(cart);
-        } else {
-            throw new ResourceNotFoundException("Не удалось найти элемент для удаления");
+    private void recalculateCart(Cart cart) {
+        cart.setPrice(new BigDecimal("0.0"));
+        for (CartItem cartItem : cart.getCartItems()) {
+            cart.setPrice(cart.getPrice().add(cartItem.getPrice()));
         }
     }
 
-    @Transactional
-    public void addProductToCartById(Long cartId, Long productId) {
-        Cart cart = getCartById(cartId);
-        save(cart);
-        CartItem cartItem = cart.getCartItemFromProductId(productId);
 
-        if (cartItem != null) {
-            cartItem.incrementQuantity();
-            cart.recalculateTotalPrice();
-            save(cart);
-            return;
-        }
-
-        Product product = productService.findById(productId).orElseThrow(
-                () -> new ResourceNotFoundException(
-                        String.format("Корзина с id: %d не найдена", cartId)));
-        cartItem = new CartItem(product);
-        cartItem.addProduct(product);
-
-        cart.addItem(cartItem);
-        save(cart);
-    }
-
-    private Cart getCartById(Long cartId) {
-        return cartRepository.findById(cartId).orElse(new Cart());
-    }
-
-    public Long getIdCartFromUsername(String username) {
-        User user = getUser(username);
-        return user.getCart().getId();
-    }
-
-    private User getUser(String username) {
-        return userService.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException(
-                String.format("Пользователь с username %s не найден", username)
-        ));
-    }
 }

@@ -42,9 +42,9 @@ public class User {
     @Column(name = "order_id")
     private Long orderId;
 
-    @OneToOne
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
+//    @OneToOne
+//    @JoinColumn(name = "cart_id")
+//    private Cart cart;
 
     @Column(name = "enabled")
     private boolean enabled;

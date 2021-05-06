@@ -17,7 +17,7 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public Product getProductById(@PathVariable Long id) {
-        return productService.findById(id).orElseThrow(() -> new ResourceNotFoundException(
+        return productService.findProductById(id).orElseThrow(() -> new ResourceNotFoundException(
                 String.format("Продукт с id: %d не найден", id)
         ));
     }

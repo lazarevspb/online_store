@@ -2,14 +2,19 @@ package ru.lazarev.online_store.model.order;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import ru.lazarev.online_store.model.cart.Cart;
+import ru.lazarev.online_store.model.cart.CartItem;
 import ru.lazarev.online_store.model.delivery.DeliveryDetails;
 import ru.lazarev.online_store.model.product.PromotionalEvents;
 import ru.lazarev.online_store.model.users.User;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,6 +32,7 @@ public class Order {
     private User owner;
 
     @OneToMany(mappedBy = "order")
+    @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
     private List<OrderItem> orderItems;
 
     @OneToOne
@@ -42,8 +48,8 @@ public class Order {
     @Column(name = "t_price_w_discount")
     private int tPriceWDiscount;
 
-    @Column(name = "total_price")
-    private Integer totalPrice;
+    @Column(name = "total_price") // TODO: 06.05.2021 изменить поле в ДБ
+    private BigDecimal price;
 
     @Column(name = "phone")
     private String phone;
@@ -69,4 +75,18 @@ public class Order {
     @Column(name = "updated_at")
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+
+    public Order(Cart cart, String address, User owner) {
+        this.owner = owner;
+        this.address = address;
+        this.price = cart.getPrice();
+        this.orderItems = new ArrayList<>();
+        for (CartItem cartItem : cart.getCartItems()) {
+            OrderItem orderItem = new OrderItem(cartItem);
+            orderItem.setOrder(this);
+            this.orderItems.add(orderItem);
+        }
+    }
+
 }

@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -23,7 +24,7 @@ public class Product {
     private String title;
 
     @Column(name = "price")
-    private int price;
+    private BigDecimal price;
 
 /*  @Column(name = "status_id") // TODO: 27.04.2021 вызывают ошибку
     private int status_id;
