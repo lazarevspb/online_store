@@ -1,7 +1,9 @@
 package ru.lazarev.online_store.services;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import ru.lazarev.online_store.exception.ResourceNotFoundException;
 import ru.lazarev.online_store.model.cart.Cart;
 import ru.lazarev.online_store.model.order.Order;
 import ru.lazarev.online_store.model.users.User;
@@ -20,9 +22,9 @@ public class OrderService {
 
     @Transactional
     public Order createFromUserCart(String username, String address) {
-        User user = userService.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
         Cart cart = cartService.findCartByOwnerId(user.getId());
-        if (cart.getCartItems().isEmpty()) throw new RuntimeException("Cart is empty");
+        if (cart.getCartItems().isEmpty()) throw new ResourceNotFoundException("Cart is empty");
         Order order = new Order(cart, address, user);
         order = orderRepository.save(order);
         return order;
