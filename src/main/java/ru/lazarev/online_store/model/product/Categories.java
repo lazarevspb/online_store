@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Data
@@ -18,4 +19,14 @@ public class Categories {
 
     @Column(name = "title")
     private String name;
+
+//    @OneToMany(mappedBy = "category_id")
+//    private List<Product> products;
+
+    @ManyToMany
+    @JoinTable(name = "products_categories",
+            joinColumns = @JoinColumn(name = "category_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private Collection<Product> products;
 }
+

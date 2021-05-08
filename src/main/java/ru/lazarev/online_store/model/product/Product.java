@@ -9,6 +9,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 @Entity
 @Data
@@ -39,6 +40,14 @@ public class Product {
 
     @Column(name = "category_id")
     private int category_id;
+
+
+    @ManyToMany
+    @JoinTable(name = "products_categories",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Collection<Categories> categories;
+
 
     @Column(name = "created_at")
     @CreationTimestamp

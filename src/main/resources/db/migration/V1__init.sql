@@ -362,4 +362,10 @@ CREATE TABLE products_images_items
         REFERENCES images (id)
 );
 
-
+create table products_categories
+(
+    product_id  bigint,
+    category_id bigint,
+    foreign key (product_id) references products (id),
+    foreign key (category_id) references categories (id)
+);

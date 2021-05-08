@@ -1,4 +1,4 @@
-package ru.lazarev.online_store.config;
+package ru.lazarev.online_store.configs;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

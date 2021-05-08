@@ -11,6 +11,7 @@ import ru.lazarev.online_store.repositories.ProductRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,4 +47,21 @@ public class ProductService {
         return productRepository.findAll(spec, PageRequest.of(page - 1, pageSize)).map(ProductDto::new);
     }
 
+
+    public static final Function<Product, ru.lazarev.online_store.soap.products.Product> functionEntityToSoap = pe -> {
+        ru.lazarev.online_store.soap.products.Product p = new ru.lazarev.online_store.soap.products.Product();
+        p.setId(pe.getId());
+        p.setTitle(pe.getTitle());
+        p.setPrice(Integer.parseInt(pe.getPrice().toString()));
+        p.setCategory(pe.getCategories().stream().findFirst().toString());
+        return p;
+    };
+
+    public List<ru.lazarev.online_store.soap.products.Product> getAllSoapProducts() {
+        return productRepository.findAll().stream().map(functionEntityToSoap).collect(Collectors.toList());
+    }
+
+    public ru.lazarev.online_store.soap.products.Product getByName(String name) {
+        return productRepository.findByName(name).map(functionEntityToSoap).get();
+    }
 }

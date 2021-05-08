@@ -1,4 +1,4 @@
-package ru.lazarev.online_store.config;
+package ru.lazarev.online_store.configs;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;

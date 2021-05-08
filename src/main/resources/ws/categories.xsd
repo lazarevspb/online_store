@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="http://www.lazarev.ru/spring/ws/categories"
+        xmlns:st="http://www.lazarev.ru/spring/ws/products"
+        targetNamespace="http://www.lazarev.ru/spring/ws/categories" elementFormDefault="qualified">
+
+    <xs:import schemaLocation="products.xsd" namespace="http://www.lazarev.ru/spring/ws/products"/>
+
+    <xs:element name="getCategoriesByTitleRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="title" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getCategoriesByTitleResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="categories" type="tns:categories"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="categories">
+        <xs:sequence>
+            <xs:element name="title" type="xs:string"/>
+            <xs:element name="products" maxOccurs="unbounded" type="st:product"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
