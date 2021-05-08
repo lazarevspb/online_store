@@ -24,7 +24,7 @@ public class CategoriesEndpoint {
             <soapenv:Header/>
             <soapenv:Body>
                 <f:getCategoriesByTitleRequest>
-                    <f:title>ABC-123</f:title>
+                    <f:title>food</f:title>
                 </f:getCategoriesByTitleRequest>
             </soapenv:Body>
         </soapenv:Envelope>

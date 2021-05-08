@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import ru.lazarev.online_store.dto.ProductDto;
 import ru.lazarev.online_store.model.product.Product;
 import ru.lazarev.online_store.repositories.ProductRepository;
+import ru.lazarev.online_store.soap.products.ProductSoap;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +32,7 @@ public class ProductService {
     public List<ProductDto> findAll() {
         return productRepository.findAll().stream().map(ProductDto::new).collect(Collectors.toList());
     }
+
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
@@ -47,21 +49,22 @@ public class ProductService {
         return productRepository.findAll(spec, PageRequest.of(page - 1, pageSize)).map(ProductDto::new);
     }
 
-
-    public static final Function<Product, ru.lazarev.online_store.soap.products.Product> functionEntityToSoap = pe -> {
-        ru.lazarev.online_store.soap.products.Product p = new ru.lazarev.online_store.soap.products.Product();
+    public static final Function<Product, ProductSoap> functionEntityToSoap = pe -> {
+        ProductSoap p = new ProductSoap();
+        pe.getCategories().forEach(System.out::println);
         p.setId(pe.getId());
         p.setTitle(pe.getTitle());
-        p.setPrice(Integer.parseInt(pe.getPrice().toString()));
-        p.setCategory(pe.getCategories().stream().findFirst().toString());
+        p.setPrice(pe.getPrice());
+        p.setCategory(pe.getCategory().toString());
         return p;
     };
 
-    public List<ru.lazarev.online_store.soap.products.Product> getAllSoapProducts() {
+    public List<ProductSoap> getAllSoapProducts() {
+        final List<ProductSoap> collect = productRepository.findAll().stream().map(functionEntityToSoap).collect(Collectors.toList());
         return productRepository.findAll().stream().map(functionEntityToSoap).collect(Collectors.toList());
     }
 
-    public ru.lazarev.online_store.soap.products.Product getByName(String name) {
+    public ProductSoap getByName(String name) {
         return productRepository.findByName(name).map(functionEntityToSoap).get();
     }
 }

@@ -8,7 +8,7 @@
 
 package ru.lazarev.online_store.soap.categories;
 
-import ru.lazarev.online_store.soap.products.Product;
+import ru.lazarev.online_store.soap.products.ProductSoap;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -41,14 +41,14 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "categories", propOrder = {
     "title",
-    "products"
+        "productSoaps"
 })
-public class Categories {
+public class CategoriesSoap {
 
     @XmlElement(required = true)
     protected String title;
     @XmlElement(required = true)
-    protected List<Product> products;
+    protected List<ProductSoap> productSoaps;
 
     /**
      * Gets the value of the title property.
@@ -92,15 +92,15 @@ public class Categories {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link Product }
+     * {@link ProductSoap }
      * 
      * 
      */
-    public List<Product> getProducts() {
-        if (products == null) {
-            products = new ArrayList<Product>();
+    public List<ProductSoap> getProducts() {
+        if (productSoaps == null) {
+            productSoaps = new ArrayList<ProductSoap>();
         }
-        return this.products;
+        return this.productSoaps;
     }
 
 }

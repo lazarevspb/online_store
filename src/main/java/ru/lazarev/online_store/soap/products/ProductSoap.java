@@ -12,6 +12,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import java.math.BigDecimal;
 
 
 /**
@@ -43,12 +44,12 @@ import javax.xml.bind.annotation.XmlType;
     "price",
     "category"
 })
-public class Product {
+public class ProductSoap {
 
     protected long id;
     @XmlElement(required = true)
     protected String title;
-    protected int price;
+    protected BigDecimal price;
     @XmlElement(required = true)
     protected String category;
 
@@ -96,7 +97,7 @@ public class Product {
      * Gets the value of the price property.
      * 
      */
-    public int getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
@@ -104,7 +105,7 @@ public class Product {
      * Sets the value of the price property.
      * 
      */
-    public void setPrice(int value) {
+    public void setPrice(BigDecimal value) {
         this.price = value;
     }
 

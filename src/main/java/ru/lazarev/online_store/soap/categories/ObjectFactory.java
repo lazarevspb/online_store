@@ -53,11 +53,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Categories }
+     * Create an instance of {@link CategoriesSoap }
      * 
      */
-    public Categories createCategories() {
-        return new Categories();
+    public CategoriesSoap createCategories() {
+        return new CategoriesSoap();
     }
 
 }

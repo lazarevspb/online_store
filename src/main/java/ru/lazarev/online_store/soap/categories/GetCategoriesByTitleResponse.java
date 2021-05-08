@@ -32,24 +32,24 @@ import javax.xml.bind.annotation.*;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "categories"
+        "categoriesSoap"
 })
 @XmlRootElement(name = "getCategoriesByTitleResponse")
 public class GetCategoriesByTitleResponse {
 
     @XmlElement(required = true)
-    protected Categories categories;
+    protected CategoriesSoap categoriesSoap;
 
     /**
      * Gets the value of the categories property.
      * 
      * @return
      *     possible object is
-     *     {@link Categories }
+     *     {@link CategoriesSoap }
      *     
      */
-    public Categories getCategories() {
-        return categories;
+    public CategoriesSoap getCategories() {
+        return categoriesSoap;
     }
 
     /**
@@ -57,11 +57,11 @@ public class GetCategoriesByTitleResponse {
      * 
      * @param value
      *     allowed object is
-     *     {@link Categories }
+     *     {@link CategoriesSoap }
      *     
      */
-    public void setCategories(Categories value) {
-        this.categories = value;
+    public void setCategories(CategoriesSoap value) {
+        this.categoriesSoap = value;
     }
 
 }

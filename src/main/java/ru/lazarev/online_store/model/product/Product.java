@@ -38,11 +38,12 @@ public class Product {
     to null value
     */
 
-    @Column(name = "category_id")
-    private int category_id;
+    @ManyToOne()
+    @JoinColumn(name = "category_id")
+    private Categories category;
 
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "products_categories",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))

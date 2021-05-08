@@ -22,13 +22,15 @@ public class ProductEndpoint {
     public GetProductByNameResponse getProductByName(@RequestPayload GetProductByNameRequest request) {
         GetProductByNameResponse response = new GetProductByNameResponse();
         response.setProduct(productService.getByName(request.getName()));
+        System.out.println("\n\nresponse.getProducts() = " + response.getProduct());
         return response;
     }
 
     /*
         Пример запроса: POST http://localhost:8189/app/ws
 
-        <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:f="http://www.lazarev.ru/spring/ws/products">
+        <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:f="http://www.lazarev.ru/spring/ws/products">
             <soapenv:Header/>
             <soapenv:Body>
                 <f:getAllProductsRequest/>
@@ -41,6 +43,7 @@ public class ProductEndpoint {
     public GetAllProductsResponse getAllProducts(@RequestPayload GetAllProductsRequest request) {
         GetAllProductsResponse response = new GetAllProductsResponse();
         productService.getAllSoapProducts().forEach(response.getProducts()::add);
+        System.out.println("\n\nresponse.getProducts() = " + response.getProducts());
         return response;
     }
 }

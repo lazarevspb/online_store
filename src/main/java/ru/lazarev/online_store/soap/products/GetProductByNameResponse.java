@@ -32,24 +32,24 @@ import javax.xml.bind.annotation.*;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "product"
+        "productSoap"
 })
 @XmlRootElement(name = "getProductByNameResponse")
 public class GetProductByNameResponse {
 
     @XmlElement(required = true)
-    protected Product product;
+    protected ProductSoap productSoap;
 
     /**
      * Gets the value of the product property.
      * 
      * @return
      *     possible object is
-     *     {@link Product }
+     *     {@link ProductSoap }
      *     
      */
-    public Product getProduct() {
-        return product;
+    public ProductSoap getProduct() {
+        return productSoap;
     }
 
     /**
@@ -57,11 +57,11 @@ public class GetProductByNameResponse {
      * 
      * @param value
      *     allowed object is
-     *     {@link Product }
+     *     {@link ProductSoap }
      *     
      */
-    public void setProduct(Product value) {
-        this.product = value;
+    public void setProduct(ProductSoap value) {
+        this.productSoap = value;
     }
 
 }

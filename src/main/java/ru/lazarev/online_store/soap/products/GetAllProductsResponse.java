@@ -34,13 +34,13 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "products"
+        "productSoaps"
 })
 @XmlRootElement(name = "getAllProductsResponse")
 public class GetAllProductsResponse {
 
     @XmlElement(required = true)
-    protected List<Product> products;
+    protected List<ProductSoap> productSoaps;
 
     /**
      * Gets the value of the products property.
@@ -60,15 +60,15 @@ public class GetAllProductsResponse {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link Product }
+     * {@link ProductSoap }
      * 
      * 
      */
-    public List<Product> getProducts() {
-        if (products == null) {
-            products = new ArrayList<Product>();
+    public List<ProductSoap> getProducts() {
+        if (productSoaps == null) {
+            productSoaps = new ArrayList<ProductSoap>();
         }
-        return this.products;
+        return this.productSoaps;
     }
 
 }
