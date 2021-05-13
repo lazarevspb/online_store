@@ -16,13 +16,12 @@ public class CartDto {
 
     public CartDto(Cart cart) {
         List<CartItemDto> list = new ArrayList<>();
-        List<CartItem> cartItems = cart.getItems();
-        for (int i = 0, cartItemsSize = cartItems.size(); i < cartItemsSize; i++) {
-            CartItem cartItem = cartItems.get(i);
+        List<CartItem> cartItems = cart.getCartItems();
+        for (CartItem cartItem : cartItems) {
             CartItemDto cartItemDto = new CartItemDto(cartItem);
             list.add(cartItemDto);
         }
         this.items = list;
-        this.totalPrice = cart.getTotalPrice();
+//        this.totalPrice = cart.getTotalPrice();
     }
 }

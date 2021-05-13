@@ -56,20 +56,6 @@ CREATE TABLE products
         REFERENCES status_products (id)
 );
 
-/*Элементы заказа, из них будем формировать заказ или корзину
-  Самой корзины нет, так как в базе храниться не будет*/
-DROP TABLE IF EXISTS order_items;
-CREATE TABLE order_items
-(
-    id             BIGSERIAL PRIMARY KEY,
-    order_id       BIGSERIAL NOT NULL,
-    product_id     BIGINT    NOT NULL,
-    count          BIGINT    NOT NULL,
-    price_per_item NUMERIC(8, 2),
-    price          NUMERIC(8, 2),
-    FOREIGN KEY (product_id)
-        REFERENCES products (id)
-);
 
 /*Статус выполнения заказа, например: создан, оплачен, выполнен итд */
 DROP TABLE IF EXISTS order_status;
@@ -149,6 +135,25 @@ CREATE TABLE delivery_details
     PRIMARY KEY (id)
 );
 
+/*Элементы заказа, из них будем формировать заказ или корзину
+  Самой корзины нет, так как в базе храниться не будет*/
+DROP TABLE IF EXISTS order_items;
+create table order_items
+(
+    id                bigserial primary key,
+--     order_id          bigint references orders (id),
+    order_id          bigint,
+    product_id        bigint references products (id),
+    title             varchar(255),
+    quantity          int,
+    price_per_product numeric(10, 2),
+    price             numeric(10, 2),
+    created_at        timestamp default current_timestamp,
+    updated_at        timestamp default current_timestamp
+);
+
+
+
 /*В этой таблице будет храниться заказ, по ИД заказа можем получить юзера
   и статус самого заказа*/
 DROP TABLE IF EXISTS orders;
@@ -181,6 +186,16 @@ CREATE TABLE orders
     FOREIGN KEY (delivery_details_id)
         REFERENCES delivery_details (id)
 );
+
+
+
+/* Внешний ключ для деталей доставки*/
+ALTER TABLE order_items
+    ADD
+        FOREIGN KEY (order_id)
+            REFERENCES orders (id)
+;
+
 
 /* Внешний ключ для деталей доставки*/
 ALTER TABLE delivery_details
@@ -307,31 +322,31 @@ CREATE TABLE images
     path varchar(255) NOT NULL
 );
 
-DROP TABLE IF EXISTS carts;
-CREATE TABLE carts
-(
-    id      BIGSERIAL PRIMARY KEY,
-    price   NUMERIC(8, 2),
-    user_id INT,
-    FOREIGN KEY (user_id)
-        REFERENCES users (id)
+-- DROP TABLE IF EXISTS carts;
+-- CREATE TABLE carts
+-- (
+--     id      BIGSERIAL PRIMARY KEY,
+--     price   NUMERIC(8, 2),
+--     user_id INT,
+--     FOREIGN KEY (user_id)
+--         REFERENCES users (id)
+--
+-- );
 
-);
 
-
-DROP TABLE IF EXISTS products_images_items;
-CREATE TABLE cart_items
-(
-    id                BIGSERIAL PRIMARY KEY,
-    cart_id           BIGINT REFERENCES carts (id),
-    product_id        BIGINT REFERENCES products (id),
-    title             VARCHAR(255),
-    quantity          INT,
-    price_per_product INT,
-    price             INT,
-    created_at        TIMESTAMP DEFAULT current_timestamp,
-    updated_at        TIMESTAMP DEFAULT current_timestamp
-);
+-- DROP TABLE IF EXISTS products_images_items;
+-- CREATE TABLE cart_items
+-- (
+--     id                BIGSERIAL PRIMARY KEY,
+--     cart_id           BIGINT REFERENCES carts (id),
+--     product_id        BIGINT REFERENCES products (id),
+--     title             VARCHAR(255),
+--     quantity          INT,
+--     price_per_product INT,
+--     price             INT,
+--     created_at        TIMESTAMP DEFAULT current_timestamp,
+--     updated_at        TIMESTAMP DEFAULT current_timestamp
+-- );
 
 
 /*Промежуточная таблица для изображений*/
@@ -347,4 +362,10 @@ CREATE TABLE products_images_items
         REFERENCES images (id)
 );
 
-
+create table products_categories
+(
+    product_id  bigint,
+    category_id bigint,
+    foreign key (product_id) references products (id),
+    foreign key (category_id) references categories (id)
+);

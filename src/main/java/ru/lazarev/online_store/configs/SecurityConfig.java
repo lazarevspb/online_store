@@ -1,4 +1,4 @@
-package ru.lazarev.online_store.config;
+package ru.lazarev.online_store.configs;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.
                 csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/v1/*").authenticated()
+                .antMatchers("/api/v1/**").authenticated()
                 .antMatchers("/api/v1/admin").hasRole("ADMIN")
                 .anyRequest().permitAll()
                 .and()

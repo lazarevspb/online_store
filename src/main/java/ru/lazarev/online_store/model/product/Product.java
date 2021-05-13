@@ -7,7 +7,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 @Entity
 @Data
@@ -23,7 +25,7 @@ public class Product {
     private String title;
 
     @Column(name = "price")
-    private int price;
+    private BigDecimal price;
 
 /*  @Column(name = "status_id") // TODO: 27.04.2021 вызывают ошибку
     private int status_id;
@@ -36,8 +38,17 @@ public class Product {
     to null value
     */
 
-    @Column(name = "category_id")
-    private int category_id;
+    @ManyToOne()
+    @JoinColumn(name = "category_id")
+    private Categories category;
+
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "products_categories",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Collection<Categories> categories;
+
 
     @Column(name = "created_at")
     @CreationTimestamp
