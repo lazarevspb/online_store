@@ -15,13 +15,9 @@ import java.util.concurrent.TimeoutException;
 public class Sender {
     private static final String EXCHANGE_NAME = "online_store_serial";
     private static final String HOST = "localhost";
-    private static final String ROUTING_KEY = "order";
-    private static final String CHARSET_NAME = "UTF-8";
 
     public static void send(OrderDto orderDto) {
         ConnectionFactory factory = getConnectionFactory();
-
-
         try (Connection connection = factory.newConnection();
              Channel channel = connection.createChannel()) {
             channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.FANOUT, false, true, null);

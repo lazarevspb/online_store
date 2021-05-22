@@ -3,7 +3,6 @@ package ru.lazarev.recieveMQ;
 import com.rabbitmq.client.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.SerializationUtils;
-import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import ru.lazarev.online_store.dto.OrderDto;
 
 @Slf4j
@@ -21,15 +20,14 @@ public class Receiver {
         String queueName = channel.queueDeclare().getQueue();
         log.info("My queue name: " + queueName);
         channel.queueBind(queueName, EXCHANGE_NAME, "");
-
-        System.out.println(" [*] Waiting for messages");
-
-        DeliverCallback deliverCallback = (consumerTag, delivery) -> {
-            OrderDto orderDto = SerializationUtils.deserialize(delivery.getBody());
-            System.out.println(" [x] Received '" + orderDto);
-        };
-
+        log.info("Receiver launched");
+        DeliverCallback deliverCallback = Receiver::someOrderProcessing;
         channel.basicConsume(queueName, true, deliverCallback, consumerTag -> {
         });
+    }
+
+    private static void someOrderProcessing(String consumerTag, Delivery delivery) {
+        OrderDto orderDto = SerializationUtils.deserialize(delivery.getBody());
+        log.info(" [x] Received '" + orderDto);
     }
 }

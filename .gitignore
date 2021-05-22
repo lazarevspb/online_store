@@ -37,6 +37,6 @@ build/
 /my_folder/
 /mvnw
 /mvnw.cmd
-/src/main/resources/application.yaml
-/src/main/resources/private.properties
-/src/main/resources/ru/lazarev/online_store/
+/srore/src/main/resources/application.yaml
+/srore/src/main/resources/private.properties
+/srore/src/main/resources/ru/lazarev/online_store/
