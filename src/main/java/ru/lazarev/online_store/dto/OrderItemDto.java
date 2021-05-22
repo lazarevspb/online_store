@@ -3,10 +3,12 @@ package ru.lazarev.online_store.dto;
 import lombok.Data;
 import ru.lazarev.online_store.model.order.OrderItem;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Data
-public class OrderItemDto {
+public class OrderItemDto implements Serializable {
+    private static final long serialVersionUID = -1650136059587331366L;
     private Long productId;
     private String productTitle;
     private BigDecimal pricePerProduct;
