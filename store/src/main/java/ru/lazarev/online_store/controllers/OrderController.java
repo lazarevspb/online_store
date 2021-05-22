@@ -8,6 +8,7 @@ import ru.lazarev.online_store.dto.OrderDto;
 import ru.lazarev.online_store.exception.ResourceNotFoundException;
 import ru.lazarev.online_store.model.order.Order;
 import ru.lazarev.online_store.model.users.User;
+import ru.lazarev.online_store.mq.Sender;
 import ru.lazarev.online_store.services.CartService;
 import ru.lazarev.online_store.services.OrderService;
 import ru.lazarev.online_store.services.UserService;
@@ -31,7 +32,9 @@ public class OrderController {
         Order order = orderService.createFromUserCart(principal.getName(), address);
         User user = userService.findByUsername(principal.getName()).orElseThrow();
         cartService.clearCart(user.getId());
-        return new OrderDto(order);
+        OrderDto orderDto = new OrderDto(order);
+        Sender.send(orderDto);
+        return orderDto;
     }
 
     @GetMapping("/{id}")

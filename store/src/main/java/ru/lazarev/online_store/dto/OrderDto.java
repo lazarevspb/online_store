@@ -5,13 +5,15 @@ import lombok.NoArgsConstructor;
 import ru.lazarev.online_store.model.order.Order;
 import ru.lazarev.online_store.model.order.OrderItem;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
 @Data
-public class OrderDto {
+public class OrderDto implements Serializable {
+    private static final long serialVersionUID = -1650136059587331366L;
     private Long id;
     private String username;
     private String address;
@@ -28,5 +30,17 @@ public class OrderDto {
         this.items = new ArrayList<>();
         List<OrderItem> orderItems = order.getOrderItems();
         orderItems.forEach(i -> this.items.add(new OrderItemDto(i)));
+    }
+
+    @Override
+    public String toString() {
+        return "OrderDto{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", address='" + address + '\'' +
+                ", totalPrice=" + totalPrice +
+                ", items=" + items +
+                ", creationDateTime='" + creationDateTime + '\'' +
+                '}';
     }
 }
