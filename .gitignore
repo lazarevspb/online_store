@@ -39,3 +39,7 @@ build/
 /mvnw.cmd
 /src/main/resources/application.yaml
 /src/main/resources/private.properties
+/src/main/resources/private.properties
+/src/main/resources/secured.properties
+/src/main/resources/ru/lazarev/online_store/privateCopy.properties
+/src/main/resources/ru/lazarev/online_store/private.properties
