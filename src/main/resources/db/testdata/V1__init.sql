@@ -122,17 +122,17 @@ DROP TABLE IF EXISTS delivery_details;
 CREATE TABLE delivery_details
 (
     id                 BIGSERIAL   NOT NULL UNIQUE,
-    order_id           BIGINT      NOT NULL UNIQUE,
-    phone              VARCHAR(15) NOT NULL UNIQUE,
+    order_id           BIGINT      ,
+    phone              VARCHAR(15) ,
     address            VARCHAR(255),
     delivery_date      TIMESTAMP,
     price              NUMERIC(8, 2),
-    status_delivery_id INTEGER,
-    updated_at         TIMESTAMP DEFAULT current_timestamp,
+--     status_delivery_id INTEGER,
+    updated_at         TIMESTAMP DEFAULT current_timestamp
 
 --     FOREIGN KEY (order_id) REFERENCES orders (id),
-    FOREIGN KEY (status_delivery_id) REFERENCES delivery_status (id),
-    PRIMARY KEY (id)
+--     FOREIGN KEY (status_delivery_id) REFERENCES delivery_status (id),
+--     PRIMARY KEY (id)
 );
 
 /*Элементы заказа, из них будем формировать заказ или корзину
@@ -141,7 +141,6 @@ DROP TABLE IF EXISTS order_items;
 create table order_items
 (
     id                bigserial primary key,
---     order_id          bigint references orders (id),
     order_id          bigint,
     product_id        bigint references products (id),
     title             varchar(255),
@@ -163,15 +162,15 @@ CREATE TABLE orders
     user_id              BIGINT,
 --     cart_id              BIGINT,
     order_item_id        BIGINT,
-    discount             NUMERIC(8, 2),
+    discount             NUMERIC(8, 2) DEFAULT 0,
     promotional_event_id BIGINT,
-    total_discount       NUMERIC(8, 2),
-    total_price          NUMERIC(8, 2),
-    t_price_w_discount   NUMERIC(8, 2), /*total price with discount*/
+    total_discount       NUMERIC(8, 2) DEFAULT 0,
+    total_price          NUMERIC(8, 2) DEFAULT 0,
+    t_price_w_discount   NUMERIC(8, 2) DEFAULT 0, /*total price with discount*/
     phone                VARCHAR(15),
     address              VARCHAR(255),
     delivery_required    BOOLEAN   DEFAULT false,
-    delivery_details_id  BIGINT,
+    delivery_details_id  BIGINT DEFAULT 1,
     order_status_id      INTEGER,
     created_at           TIMESTAMP DEFAULT current_timestamp,
     updated_at           TIMESTAMP DEFAULT current_timestamp,
@@ -181,8 +180,8 @@ CREATE TABLE orders
 --         REFERENCES carts (id),
     FOREIGN KEY (order_item_id)
         REFERENCES order_items (id),
-    FOREIGN KEY (order_status_id)
-        REFERENCES order_status (id),
+--     FOREIGN KEY (order_status_id)
+--         REFERENCES order_status (id),
     FOREIGN KEY (delivery_details_id)
         REFERENCES delivery_details (id)
 );

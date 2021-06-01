@@ -26,7 +26,7 @@ public class DeliveryDetails {
     private LocalDateTime deliveryDate;
 
     private String price;
-    private int statusDeliveryId;
+//    private int statusDeliveryId;
 
     @Column(name = "updated_at")
     @UpdateTimestamp
