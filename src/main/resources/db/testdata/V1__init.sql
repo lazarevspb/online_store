@@ -18,12 +18,9 @@ CREATE TABLE details
     id                 BIGSERIAL UNIQUE,
     category_id        INT,
     product_details_id INT,
---     PRIMARY KEY (id, category_id),
     PRIMARY KEY (id), /*Исправил, так как непонятно, зачем тут составной первичный ключь*/
     FOREIGN KEY (category_id)
         REFERENCES categories (id)
---     FOREIGN KEY (product_details_id)
---         REFERENCES products_details (id)
 );
 
 /*содержит список статуов продукта*/
@@ -56,7 +53,6 @@ CREATE TABLE products
         REFERENCES status_products (id)
 );
 
-
 /*Статус выполнения заказа, например: создан, оплачен, выполнен итд */
 DROP TABLE IF EXISTS order_status;
 CREATE TABLE order_status
@@ -78,14 +74,11 @@ CREATE TABLE users
     email      VARCHAR(30) UNIQUE,
     first_name VARCHAR(50),
     last_name  VARCHAR(50),
-
     order_id   BIGINT,
     cart_id    BIGINT,
     enabled    BOOLEAN   DEFAULT true, /* пользователя можно будет деактивировать */
     created_at TIMESTAMP DEFAULT current_timestamp,
     updated_at TIMESTAMP DEFAULT current_timestamp
---     FOREIGN KEY (order_id) - добавляются после создания таблицы orders
---         REFERENCES orders (id)
 );
 
 /*Таблица хранит информации об акциях и скидках.
@@ -127,12 +120,7 @@ CREATE TABLE delivery_details
     address            VARCHAR(255),
     delivery_date      TIMESTAMP,
     price              NUMERIC(8, 2),
---     status_delivery_id INTEGER,
     updated_at         TIMESTAMP DEFAULT current_timestamp
-
---     FOREIGN KEY (order_id) REFERENCES orders (id),
---     FOREIGN KEY (status_delivery_id) REFERENCES delivery_status (id),
---     PRIMARY KEY (id)
 );
 
 /*Элементы заказа, из них будем формировать заказ или корзину
@@ -150,8 +138,6 @@ create table order_items
     created_at        timestamp default current_timestamp,
     updated_at        timestamp default current_timestamp
 );
-
-
 
 /*В этой таблице будет храниться заказ, по ИД заказа можем получить юзера
   и статус самого заказа*/
@@ -176,17 +162,11 @@ CREATE TABLE orders
     updated_at           TIMESTAMP DEFAULT current_timestamp,
     FOREIGN KEY (user_id)
         REFERENCES users (id),
---     FOREIGN KEY (cart_id)
---         REFERENCES carts (id),
     FOREIGN KEY (order_item_id)
         REFERENCES order_items (id),
---     FOREIGN KEY (order_status_id)
---         REFERENCES order_status (id),
     FOREIGN KEY (delivery_details_id)
         REFERENCES delivery_details (id)
 );
-
-
 
 /* Внешний ключ для деталей доставки*/
 ALTER TABLE order_items
@@ -194,7 +174,6 @@ ALTER TABLE order_items
         FOREIGN KEY (order_id)
             REFERENCES orders (id)
 ;
-
 
 /* Внешний ключ для деталей доставки*/
 ALTER TABLE delivery_details
@@ -320,33 +299,6 @@ CREATE TABLE images
     id   bigserial PRIMARY KEY,
     path varchar(255) NOT NULL
 );
-
--- DROP TABLE IF EXISTS carts;
--- CREATE TABLE carts
--- (
---     id      BIGSERIAL PRIMARY KEY,
---     price   NUMERIC(8, 2),
---     user_id INT,
---     FOREIGN KEY (user_id)
---         REFERENCES users (id)
---
--- );
-
-
--- DROP TABLE IF EXISTS products_images_items;
--- CREATE TABLE cart_items
--- (
---     id                BIGSERIAL PRIMARY KEY,
---     cart_id           BIGINT REFERENCES carts (id),
---     product_id        BIGINT REFERENCES products (id),
---     title             VARCHAR(255),
---     quantity          INT,
---     price_per_product INT,
---     price             INT,
---     created_at        TIMESTAMP DEFAULT current_timestamp,
---     updated_at        TIMESTAMP DEFAULT current_timestamp
--- );
-
 
 /*Промежуточная таблица для изображений*/
 DROP TABLE IF EXISTS products_images_items;

@@ -28,13 +28,9 @@ class OrderControllerTest {
     @Test
     @WithMockUser(username = "bob1", roles = "USER")
     public void getOrderByIdTest() throws Exception {
-        mvc.perform(get("/api/v1/orders/1" )
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-
-
+        mvc.perform(get("/api/v1/orders/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.address", is("some_address")));
     }
-
-
-
 }

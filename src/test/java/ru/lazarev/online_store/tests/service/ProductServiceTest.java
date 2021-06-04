@@ -13,6 +13,7 @@ import ru.lazarev.online_store.repositories.ProductRepository;
 import ru.lazarev.online_store.services.ProductService;
 
 import java.math.BigDecimal;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 //@SpringBootTest(value = "classpath:private.properties")
@@ -31,7 +32,6 @@ public class ProductServiceTest {
         mockProduct.setPrice(BigDecimal.valueOf(555));
         mockProduct.setId(111L);
 
-
         Mockito
                 .doReturn(Optional.of(mockProduct))
                 .when(productRepository)
@@ -43,4 +43,12 @@ public class ProductServiceTest {
         Assertions.assertEquals("mockProduct", p.getTitle());
 
     }
+
+    @Test
+    public void findProductByIdTest() {
+        Assertions.assertThrows(NoSuchElementException.class,
+                () -> productService.findProductById(500L).get());
+    }
+
 }
+

@@ -44,5 +44,4 @@ class UserServiceTest {
         Assertions.assertEquals(100L, u.getId());
         Assertions.assertEquals("mockUserFirstName", u.getFirstName());
     }
-
 }

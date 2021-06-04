@@ -23,8 +23,6 @@ class ProductRepositoryTest {
     @Autowired
     private TestEntityManager entityManager;
 
-
-
     @Test
     void initDbTest() {
         List<Product> list = productRepository.findAll();

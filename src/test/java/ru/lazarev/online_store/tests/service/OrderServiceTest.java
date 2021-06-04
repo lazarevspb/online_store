@@ -9,23 +9,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import ru.lazarev.online_store.model.cart.Cart;
 import ru.lazarev.online_store.model.order.Order;
-import ru.lazarev.online_store.model.product.Product;
 import ru.lazarev.online_store.model.users.User;
-import ru.lazarev.online_store.repositories.CartRepository;
 import ru.lazarev.online_store.repositories.OrderRepository;
-import ru.lazarev.online_store.repositories.UserRepository;
 import ru.lazarev.online_store.services.CartService;
 import ru.lazarev.online_store.services.OrderService;
 import ru.lazarev.online_store.services.UserService;
 
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = OrderService.class)
 class OrderServiceTest {

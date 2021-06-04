@@ -31,6 +31,4 @@ class OrderRepositoryTest {
         final Order order = orderRepository.findById(1L).get();
         Assertions.assertEquals("some_address", order.getAddress());
     }
-
-
 }

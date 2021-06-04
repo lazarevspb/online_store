@@ -36,7 +36,10 @@ public class OrderController {
 
     @GetMapping("/{id}")
     public OrderDto getOrderById(@PathVariable Long id) {
-        Order order = orderService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+        System.out.println("id = " + id);
+        Order order = orderService
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
         return new OrderDto(order);
     }
 
