@@ -2,6 +2,7 @@ package ru.lazarev.online_store.configs;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,6 +14,7 @@ import ru.lazarev.online_store.beans.JwtRequestFilter;
 
 @EnableWebSecurity
 @AllArgsConstructor
+//@Profile("!test")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtRequestFilter jwtRequestFilter;
 
