@@ -25,8 +25,7 @@ public class ProductService {
     }
 
     public Optional<ProductDto> findProductDtoById(Long id) {
-        return productRepository.findById(id)
-                .map(ProductDto::new);
+        return productRepository.findById(id).map(ProductDto::new);
     }
 
     public List<ProductDto> findAll() {

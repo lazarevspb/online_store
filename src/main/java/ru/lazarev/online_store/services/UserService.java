@@ -7,11 +7,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.lazarev.online_store.model.users.Role;
 import ru.lazarev.online_store.model.users.User;
 import ru.lazarev.online_store.repositories.UserRepository;
 
+import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,23 +26,23 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    @Transactional
-    public UserDetails loadUserByUsername(String username)
-            throws UsernameNotFoundException {
-        User user = findByUsername(username).orElseThrow(() ->
-                new UsernameNotFoundException("User not found"));
-        return new org.springframework
-                .security
-                .core
-                .userdetails
-                .User(user.getUsername(), user.getPassword(),
+    @javax.transaction.Transactional
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
                 mapRolesToAuthorities(user.getRoles()));
 
     }
 
-    private Collection<? extends GrantedAuthority>
-    mapRolesToAuthorities(Collection<Role> roles) {
-        return roles.stream().map(r
-                -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
+    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
+        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
     }
+
+
+
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+
+
 }

@@ -16,7 +16,8 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CartService {
-    private final CartRepository cartRepository;
+    final  private  CartRepository cartRepository;
+    final  private ProductService productService;
 
     public Cart updateCart(Cart cart) {
         recalculateCart(cart);
@@ -24,7 +25,8 @@ public class CartService {
     }
 
     public Cart findCartByOwnerId(Long id) {
-        return cartRepository.findById(id).orElse(new Cart(id));
+        Cart cart = cartRepository.findById(id).orElse(new Cart(id));
+        return cartRepository.save(cart);
     }
 
     public Cart clearCart(Long id) {
@@ -40,5 +42,30 @@ public class CartService {
         }
     }
 
+    public void addToCart(Long userId, Long productId) {
+        Cart cart = findCartByOwnerId(userId);
+        for (CartItem cartItem : cart.getCartItems()) {
+            if (cartItem.getProductId().equals(productId)) {
+                cartItem.setQuantity(cartItem.getQuantity() + 1);
+                recalculateCart(cart);
+                cartRepository.save(cart);
+                return;
+            }
+        }
+
+        System.out.println("productService\n                .findProductById(productId) = " + productService
+                .findProductById(productId));
+
+        CartItem item = new CartItem(productService
+                .findProductById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found!")));
+        System.out.println();
+        System.out.println("item = " + item);
+        System.out.println("cart = " + cart);
+        System.out.println();
+        cart.getCartItems().add(item);
+        recalculateCart(cart);
+        cartRepository.save(cart);
+    }
 
 }

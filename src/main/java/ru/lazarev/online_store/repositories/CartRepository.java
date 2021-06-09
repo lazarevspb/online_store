@@ -7,5 +7,4 @@ import ru.lazarev.online_store.model.cart.Cart;
 
 @Repository
 public interface CartRepository extends CrudRepository<Cart, Long> {
-//    Optional<Cart> findCartById(Long id);
 }

@@ -13,6 +13,7 @@ import ru.lazarev.online_store.specifications.ProductSpecifications;
 @RestController
 @RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class ProductController {
     private final ProductService productService;
 

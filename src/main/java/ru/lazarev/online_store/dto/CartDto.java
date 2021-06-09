@@ -5,23 +5,19 @@ import lombok.NoArgsConstructor;
 import ru.lazarev.online_store.model.cart.Cart;
 import ru.lazarev.online_store.model.cart.CartItem;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
 public class CartDto {
     private List<CartItemDto> items;
-    private int totalPrice;
+    private BigDecimal totalPrice;
 
     public CartDto(Cart cart) {
-        List<CartItemDto> list = new ArrayList<>();
-        List<CartItem> cartItems = cart.getCartItems();
-        for (CartItem cartItem : cartItems) {
-            CartItemDto cartItemDto = new CartItemDto(cartItem);
-            list.add(cartItemDto);
-        }
-        this.items = list;
-//        this.totalPrice = cart.getTotalPrice();
+        this.totalPrice = cart.getPrice();
+        this.items = cart.getCartItems().stream().map(CartItemDto::new).collect(Collectors.toList());
     }
 }

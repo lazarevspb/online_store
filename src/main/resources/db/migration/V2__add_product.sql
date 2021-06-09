@@ -3,9 +3,9 @@ values
 ('ROLE_USER'),
 ('ROLE_ADMIN');
 
-insert into users (username, password, email, enabled, cart_id)
+insert into users (username, password, email, enabled)
 values
-('bob1', '$2y$12$yr/ojWL6JQCpku.5vlcGuuIAkROTMOkIupVUzzRMqQvBqpUgn4xA2', 'bob1@gmail.com', true, 1);
+('bob1', '$2y$12$yr/ojWL6JQCpku.5vlcGuuIAkROTMOkIupVUzzRMqQvBqpUgn4xA2', 'bob1@gmail.com', true);
 
 insert into users (username, password, email, enabled)
 values
