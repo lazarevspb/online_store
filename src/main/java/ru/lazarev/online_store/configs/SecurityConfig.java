@@ -15,7 +15,8 @@ import ru.lazarev.online_store.beans.JwtRequestFilter;
 
 @EnableWebSecurity
 @AllArgsConstructor
-public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
+//@Profile("!test")
+public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer{
     private JwtRequestFilter jwtRequestFilter;
 
     @Override

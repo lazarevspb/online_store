@@ -8,7 +8,7 @@ import org.springframework.context.annotation.PropertySource;
  * @author Valeriy Lazarev
  * @since 17.04.2021
  */
-@PropertySource("private.properties")
+@PropertySource(value = "classpath:private.properties")
 @SpringBootApplication
 public class OnlineStoreApplication {
 
