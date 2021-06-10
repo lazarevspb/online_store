@@ -31,18 +31,9 @@ public class UserService implements UserDetailsService {
         User user = findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
                 mapRolesToAuthorities(user.getRoles()));
-
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
         return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
     }
-
-
-
-    public User save(User user) {
-        return userRepository.save(user);
-    }
-
-
 }

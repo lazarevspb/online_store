@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/orders")
 @RequiredArgsConstructor
-@CrossOrigin("*")
 @Slf4j
 public class OrderController {
     private final OrderService orderService;

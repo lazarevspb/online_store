@@ -20,6 +20,4 @@ public class Details {
   private Long id;
   private Long categoryId;
   private Long productDetailsId;
-
-
 }

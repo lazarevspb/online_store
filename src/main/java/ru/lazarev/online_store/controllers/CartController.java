@@ -23,7 +23,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/cart")
 @AllArgsConstructor
-@CrossOrigin("*")
 @Slf4j
 public class CartController {
     private final CartService cartService;
@@ -44,9 +43,6 @@ public class CartController {
                 .findByUsername(principal
                         .getName())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        System.out.println();
-        System.out.println("user = " + user);
-        System.out.println();
         cartService.addToCart(user.getId(), productId);
         return ResponseEntity.ok("");
     }
@@ -62,6 +58,4 @@ public class CartController {
         Cart cart = cartService.clearCart(user.getId());
         return new CartDto(cart);
     }
-
-
 }

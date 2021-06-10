@@ -14,7 +14,6 @@ public class OrderItemDto {
     private Integer quantity;
 
     public OrderItemDto(OrderItem orderItem) {
-//        this.productId = orderItem.getProduct().getId();
         this.productId = orderItem.getProductId();
         this.productTitle = orderItem.getTitle();
         this.pricePerProduct = orderItem.getPricePerProduct();

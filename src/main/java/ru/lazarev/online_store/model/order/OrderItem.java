@@ -26,9 +26,6 @@ public class OrderItem implements Serializable {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    //    @ManyToOne
-//    @JoinColumn(name = "product_id")
-//    private Product product;
     private Long productId;
 
     @Column(name = "title")
@@ -52,12 +49,10 @@ public class OrderItem implements Serializable {
     private LocalDateTime updatedAt;
 
     public OrderItem(CartItem cartItem) {
-//        this.product = cartItem.getProductId();
         this.productId = cartItem.getProductId();
         this.title = cartItem.getTitle();
         this.quantity = cartItem.getQuantity();
         this.pricePerProduct = cartItem.getPricePerProduct();
         this.price = cartItem.getPrice();
     }
-
 }

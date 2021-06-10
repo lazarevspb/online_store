@@ -18,11 +18,8 @@ import ru.lazarev.online_store.dto.JwtRequest;
 import ru.lazarev.online_store.dto.JwtResponse;
 import ru.lazarev.online_store.services.UserService;
 
-
-
 @RestController
 @AllArgsConstructor
-@CrossOrigin("*")
 @Api("Set of endpoints for new user authentication")
 public class AuthController {
     private UserService userService;

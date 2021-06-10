@@ -28,14 +28,6 @@ public class ProductService {
         return productRepository.findById(id).map(ProductDto::new);
     }
 
-    public List<ProductDto> findAll() {
-        return productRepository.findAll().stream().map(ProductDto::new).collect(Collectors.toList());
-    }
-
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
-    }
-
     public Product save(Product product) {
         return productRepository.save(product);
     }
@@ -50,7 +42,6 @@ public class ProductService {
 
     public static final Function<Product, ProductSoap> functionEntityToSoap = pe -> {
         ProductSoap p = new ProductSoap();
-        pe.getCategories().forEach(System.out::println);
         p.setId(pe.getId());
         p.setTitle(pe.getTitle());
         p.setPrice(pe.getPrice());

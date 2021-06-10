@@ -27,17 +27,6 @@ public class Product {
     @Column(name = "price")
     private BigDecimal price;
 
-/*  @Column(name = "status_id") // TODO: 27.04.2021 вызывают ошибку
-    private int status_id;
-
-    @Column(name = "details_id")
-    private int details_id;
-
-    java.lang.IllegalArgumentException:
-    Can not set int field ru.lazarev.online_store.model.product.Product.details_id
-    to null value
-    */
-
     @ManyToOne()
     @JoinColumn(name = "category_id")
     private Categories category;
@@ -48,7 +37,6 @@ public class Product {
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Collection<Categories> categories;
-
 
     @Column(name = "created_at")
     @CreationTimestamp

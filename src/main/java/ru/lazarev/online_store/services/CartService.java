@@ -16,8 +16,8 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CartService {
-    final  private  CartRepository cartRepository;
-    final  private ProductService productService;
+    final private CartRepository cartRepository;
+    final private ProductService productService;
 
     public Cart updateCart(Cart cart) {
         recalculateCart(cart);
@@ -67,5 +67,4 @@ public class CartService {
         recalculateCart(cart);
         cartRepository.save(cart);
     }
-
 }

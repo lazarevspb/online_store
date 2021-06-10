@@ -31,6 +31,4 @@ public class DeliveryDetails {
     @Column(name = "updated_at")
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-
-
 }

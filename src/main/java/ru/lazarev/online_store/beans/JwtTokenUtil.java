@@ -57,6 +57,4 @@ public class JwtTokenUtil {
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
-
-
 }

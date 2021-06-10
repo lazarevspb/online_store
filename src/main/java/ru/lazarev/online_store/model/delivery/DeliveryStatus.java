@@ -16,5 +16,4 @@ public class DeliveryStatus {
     private Long id;
 
     private String title;
-
 }
